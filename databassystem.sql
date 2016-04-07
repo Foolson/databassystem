@@ -38,7 +38,7 @@ create table caddy(
 
 # Svaga
 create table speltillfälle(
-	starttid varchar(20),
+	starttid datetime,
 	resultat char(13),
 	namn varchar(20),
 	pnr char(13),
