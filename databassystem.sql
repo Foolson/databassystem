@@ -113,4 +113,13 @@ insert into klubba values('Driver','Längst och snedast på touren','940101-8651
 insert into caddy values('461224-4385','Svinga lugnt','Petra','940101-8651','Boom');
 
 # 9
-insert into domare values('890205-1346',12000,'Göran');
+insert into domare values('770202-3333',12000,'Göran');
+insert into spelare values('790101-4343','Benny');
+insert into boll values('Tre prickar',null,'Titleist','790101-4343');
+insert into speltillfälle values('2016-10-07 14:10:00','Diskad','Sigges sommargolf','790101-4343');
+
+# 10
+insert into domare values('850906-3597',12000,'Jens');
+insert into klubba values('Dudle','Säkra bettan','940101-8651','Boom');
+insert into boll values('Superball',null,'Nike','940101-8651');
+insert into speltillfälle values('2016-10-07 12:05:00','Diskad','Sigges sommargolf','940101-8651');
