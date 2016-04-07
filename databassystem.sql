@@ -123,3 +123,5 @@ insert into domare values('850906-3597',12000,'Jens');
 insert into klubba values('Dudle','Säkra bettan','940101-8651','Boom');
 insert into boll values('Superball',null,'Nike','940101-8651');
 insert into speltillfälle values('2016-10-07 12:05:00','Diskad','Sigges sommargolf','940101-8651');
+
+# Frågeställningar
