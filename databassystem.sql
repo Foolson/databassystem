@@ -13,7 +13,9 @@ create table domare(
 create table tavling(
 	namn varchar(20),
 	datum datetime,
-	primary key(namn)
+	domPnr char(13),
+	primary key(namn),
+	foreign key(domPnr) references domare(pnr)
 )engine=innodb;
 
 create table spelare(
