@@ -13,9 +13,15 @@ create table domare(
 create table tavling(
 	namn varchar(20),
 	datum datetime,
-	domPnr char(13),
-	primary key(namn),
-	foreign key(domPnr) references domare(pnr)
+	primary key(namn)
+)engine=innodb;
+	
+create table ansvara(
+	pnr char(13),
+	namn varchar(20),
+	primary key(pnr, namn),
+	foreign key(namn) references tavling(namn),
+	foreign key(pnr) references domare(pnr)
 )engine=innodb;
 
 create table spelare(
@@ -53,8 +59,10 @@ create table golfbag(
 	typ varchar(20),
 	marke varchar(20),
 	pnr char(13),
+	cadPnr char(13),
 	primary key(marke, pnr),
-	foreign key(pnr) references spelare(pnr)
+	foreign key(pnr) references spelare(pnr),
+	foreign key(cadPnr) references caddy(pnr)
 )engine=innodb;
 
 create table klubba(
