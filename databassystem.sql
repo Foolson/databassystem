@@ -2,10 +2,10 @@ drop database d15johol;
 create database d15johol;
 use d15johol;
 
-# Skapa starka
+# Skapa tabeller
 create table domare(
 	pnr char(11),
-	lon char(13),
+	lon int,
 	namn varchar(20),
 	primary key(pnr)
 )engine=innodb;
@@ -39,14 +39,6 @@ create table boll(
 	foreign key(pnr) references spelare(pnr)
 )engine=innodb;
 
-create table caddy(
-	pnr char(11),
-	favTips varchar(20),
-	namn varchar(20),
-	primary	key(pnr)
-)engine=innodb;
-
-# Skapa svaga
 create table speltillfälle(
 	starttid datetime,
 	resultat char(13),
@@ -61,10 +53,8 @@ create table golfbag(
 	typ varchar(20),
 	marke varchar(20),
 	pnr char(11),
-	cadPnr char(11),
 	primary key(marke, pnr),
-	foreign key(pnr) references spelare(pnr),
-	foreign key(cadPnr) references caddy(pnr)
+	foreign key(pnr) references spelare(pnr)
 )engine=innodb;
 
 create table klubba(
@@ -77,5 +67,32 @@ create table klubba(
 	foreign key(marke) references golfbag(marke)
 )engine=innodb;
 
+create table caddy(
+	pnr char(11),
+	favTips varchar(20),
+	namn varchar(20),
+	bagPnr char(11),
+	bagMarke varchar(20),
+	primary	key(pnr),
+	foreign key(bagPnr) references spelare(pnr),
+	foreign key(bagMarke) references golfbag(marke)
+)engine=innodb;
+
 # Transaktioner
+# 1
 insert into tavling values('Sigges sommargolf','2016-10-07');
+
+# 2
+insert into domare values('790129-4444',12000,'Simon');
+insert into domare values('810912-5555',12000,'Sven');
+
+#3
+insert into spelare values('560123-6666','Bosse');
+insert into speltillfälle values('2016-10-07 10:25:00',null,'Sigges sommargolf','560123-6666');
+
+#4
+insert into spelare values('730909-1111','Reidar');
+insert into golfbag values('Tour','Nike','730909-1111');
+
+#5
+insert into klubba values('Driver','Spikrak och kort','730909-1111','Nike');
