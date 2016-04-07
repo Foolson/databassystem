@@ -71,10 +71,10 @@ create table caddy(
 	pnr char(11),
 	favTips varchar(20),
 	namn varchar(20),
-	bagPnr char(11),
+	spelPnr char(11),
 	bagMarke varchar(20),
 	primary	key(pnr),
-	foreign key(bagPnr) references spelare(pnr),
+	foreign key(spelPnr) references spelare(pnr),
 	foreign key(bagMarke) references golfbag(marke)
 )engine=innodb;
 
@@ -96,3 +96,8 @@ insert into golfbag values('Tour','Nike','730909-1111');
 
 #5
 insert into klubba values('Driver','Spikrak och kort','730909-1111','Nike');
+
+#6
+insert into spelare values('670808-2222','Sune');
+insert into golfbag values('Gogo','Superbrand','670808-2222');
+insert into caddy values('891010-5468','Knyt skorna hårdare','Anna','670808-2222','Superbrand');
