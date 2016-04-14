@@ -78,50 +78,49 @@ create table caddy(
 	foreign key(bagMarke) references golfbag(marke)
 )engine=innodb;
 
-# Transaktioner
-# 1
+# Tävling
 insert into tavling values('Sigges sommargolf','2016-07-10');
 
-# 2
+# Domare
 insert into domare values('790129-4444',12000,'Simon');
 insert into domare values('810912-5555',12000,'Sven');
+insert into domare values('850906-3597',12000,'Jens');
+insert into domare values('770202-3333',12000,'Göran');
 
-# 3
+# Spelare
+insert into spelare values('940101-8651','Stina');
+insert into spelare values('670808-2222','Sune');
+insert into spelare values('790101-4343','Benny');
 insert into spelare values('560123-6666','Bosse');
-insert into speltillfälle values('2016-10-07 10:25:00',null,'Sigges sommargolf','560123-6666');
-
-# 4
 insert into spelare values('730909-1111','Reidar');
+
+# Golfbag
+insert into golfbag values('Super','Boom','940101-8651');
+insert into golfbag values('Gogo','Superbrand','670808-2222');
 insert into golfbag values('Tour','Nike','730909-1111');
 
-# 5
+# Klubba
+insert into klubba values('Dudle','Säkra bettan','940101-8651','Boom');
+insert into klubba values('Driver','Längst och snedast på touren','940101-8651','Boom');
 insert into klubba values('Driver','Spikrak och kort','730909-1111','Nike');
 
-# 6
-insert into spelare values('670808-2222','Sune');
-insert into golfbag values('Gogo','Superbrand','670808-2222');
+# Caddy
 insert into caddy values('891010-5468','Knyt skorna hårdare','Anna','670808-2222','Superbrand');
-
-# 7
-insert into speltillfälle values('2016-10-07 13:10:00','72','Sigges sommargolf','670808-2222');
-insert into boll values('Hjärta',null,'Titleist','670808-2222');
-
-# 8
-insert into spelare values('940101-8651','Stina');
-insert into golfbag values('Super','Boom','940101-8651');
-insert into klubba values('Driver','Längst och snedast på touren','940101-8651','Boom');
 insert into caddy values('461224-4385','Svinga lugnt','Petra','940101-8651','Boom');
 
-# 9
-insert into domare values('770202-3333',12000,'Göran');
-insert into spelare values('790101-4343','Benny');
+# Boll
+insert into boll values('Hjärta',null,'Titleist','670808-2222');
 insert into boll values('Tre prickar',null,'Titleist','790101-4343');
-insert into speltillfälle values('2016-10-07 14:10:00','Diskad','Sigges sommargolf','790101-4343');
-
-# 10
-insert into domare values('850906-3597',12000,'Jens');
-insert into klubba values('Dudle','Säkra bettan','940101-8651','Boom');
 insert into boll values('Superball',null,'Nike','940101-8651');
+
+# Speltillfälle
+insert into speltillfälle values('2016-10-07 13:10:00','72','Sigges sommargolf','670808-2222');
+insert into speltillfälle values('2016-10-07 10:25:00',null,'Sigges sommargolf','560123-6666');
+insert into speltillfälle values('2016-10-07 14:10:00','Diskad','Sigges sommargolf','790101-4343');
 insert into speltillfälle values('2016-10-07 12:05:00','Diskad','Sigges sommargolf','940101-8651');
+
+
+
+ 
 
 # Frågeställningar
