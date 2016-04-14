@@ -78,6 +78,7 @@ create table caddy(
 	foreign key(bagMarke) references golfbag(marke)
 )engine=innodb;
 
+# Transaktioner
 # Tävling
 insert into tavling values('Sigges sommargolf','2016-07-10');
 
@@ -98,6 +99,7 @@ insert into spelare values('730909-1111','Reidar');
 insert into golfbag values('Super','Boom','940101-8651');
 insert into golfbag values('Gogo','Superbrand','670808-2222');
 insert into golfbag values('Tour','Nike','730909-1111');
+insert into golfbag values('Wooow','Devil','560123-6666');
 
 # Klubba
 insert into klubba values('Dudle','Säkra bettan','940101-8651','Boom');
@@ -112,6 +114,7 @@ insert into caddy values('461224-4385','Svinga lugnt','Petra','940101-8651','Boo
 insert into boll values('Hjärta',null,'Titleist','670808-2222');
 insert into boll values('Tre prickar',null,'Titleist','790101-4343');
 insert into boll values('Superball',null,'Nike','940101-8651');
+insert into boll values('Randig',null,'Kina','560123-6666');
 
 # Speltillfälle
 insert into speltillfälle values('2016-10-07 13:10:00','72','Sigges sommargolf','670808-2222');
@@ -119,8 +122,15 @@ insert into speltillfälle values('2016-10-07 10:25:00',null,'Sigges sommargolf'
 insert into speltillfälle values('2016-10-07 14:10:00','Diskad','Sigges sommargolf','790101-4343');
 insert into speltillfälle values('2016-10-07 12:05:00','Diskad','Sigges sommargolf','940101-8651');
 
-
-
- 
-
 # Frågeställningar
+select namn from domare where pnr='790129-4444';
+
+select signatur from boll where pnr='560123-6666';
+
+select typ from golfbag where pnr='560123-6666';
+
+select spelare.namn from spelare, boll where boll.pnr=spelare.pnr AND boll.marke='Titleist';
+
+select speltillfälle.resultat from speltillfälle, spelare, boll where speltillfälle.pnr=spelare.pnr AND spelare.pnr=boll.pnr AND boll.marke='Nike';
+
+select spelare.pnr from spelare, spelare where spelare.pnr=spelare.pnr;
