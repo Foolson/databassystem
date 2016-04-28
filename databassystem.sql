@@ -12,7 +12,7 @@ create table domare(
 
 create table tavling(
 	namn varchar(20),
-	datum datetime,
+	datum date,
 	primary key(namn)
 )engine=innodb;
 	
@@ -41,7 +41,7 @@ create table boll(
 
 create table speltillfälle(
 	starttid datetime,
-	resultat varchar(20),
+	resultat int,
 	namn varchar(20),
 	pnr char(11),
 	primary key(starttid, namn, pnr),
@@ -82,6 +82,7 @@ create table caddy(
 # Tävling
 insert into tavling values('Sigges sommargolf','2016-07-10');
 insert into tavling values('Ryder Cup','2014-06-20');
+insert into tavling values('Masters','2077-07-12');
 
 # Domare
 insert into domare values('790129-4444',12000,'Simon');
@@ -89,6 +90,8 @@ insert into domare values('810912-5555',12000,'Sven');
 insert into domare values('790612-1212',12000,'Eva');
 insert into domare values('850906-3597',12000,'Jens');
 insert into domare values('770202-3333',12000,'Göran');
+insert into domare values('780203-7785',55000,'Knugen');
+insert into domare values('910203-2185',4300,'Gullis');
 
 insert into ansvara values('790129-4444','Sigges sommargolf');
 insert into ansvara values('810912-5555','Sigges sommargolf');
@@ -109,18 +112,20 @@ insert into spelare values('660808-5555','Kurt-Evert');
 insert into golfbag values('Super','Boom','940101-8651');
 insert into golfbag values('Gogo','SuperbrAND','670808-2222');
 insert into golfbag values('Tour','Nike','730909-1111');
-insert into golfbag values('Wooow','Devil','560123-6666');
+insert into golfbag values('Wooow','Titleist','560123-6666');
 insert into golfbag values('AndroidBag','Google','660808-5555');
 
 # Klubba
 insert into klubba values('Dudle','Säkra bettan','940101-8651','Boom');
 insert into klubba values('Driver','Längst och snedast på touren','940101-8651','Boom');
 insert into klubba values('Driver','Spikrak och kort','730909-1111','Nike');
+insert into klubba values('Jensens','Google suger','730909-1111','Nike');
 
 # Caddy
 insert into caddy values('891010-5468','Knyt skorna hårdare','Anna','670808-2222','SuperbrAND');
 insert into caddy values('461224-4385','Svinga lugnt','Petra','940101-8651','Boom');
 insert into caddy values('551221-9988','Sluta stirra på brudarnas rövar','Jesus','660808-5555','Google');
+insert into caddy values('991221-1235','Sluta stirra','Jeppe','560123-6666','Titleist');	
 
 # Boll
 insert into boll values('Hjärta',null,'Titleist','670808-2222');
@@ -129,11 +134,14 @@ insert into boll values('Superball',null,'Nike','940101-8651');
 insert into boll values('RANDig',null,'Kina','560123-6666');
 
 # Speltillfälle
-insert into speltillfälle values('2016-10-07 13:10:00','72','Sigges sommargolf','670808-2222');
-insert into speltillfälle values('2016-10-07 10:25:00',null,'Sigges sommargolf','560123-6666');
-insert into speltillfälle values('2016-10-07 14:10:00','Diskad','Sigges sommargolf','790101-4343');
-insert into speltillfälle values('2016-10-07 12:05:00','Diskad','Sigges sommargolf','940101-8651');
-insert into speltillfälle values('2014-06-20 12:00:00','72','Ryder Cup','660808-5555');
+insert into speltillfälle values('2016-10-07 13:10:00',72,'Sigges sommargolf','670808-2222');
+insert into speltillfälle values('2016-10-07 10:25:00',0,'Sigges sommargolf','560123-6666');
+insert into speltillfälle values('2016-10-07 14:10:00',0,'Sigges sommargolf','790101-4343');
+insert into speltillfälle values('2016-10-07 12:05:00',0,'Sigges sommargolf','940101-8651');
+insert into speltillfälle values('2014-06-20 12:00:00',72,'Ryder Cup','660808-5555');
+insert into speltillfälle values('2077-07-12 11:56:00',89,'Masters','940101-8651');
+insert into speltillfälle values('2077-07-12 13:12:00',10,'Masters','790101-4343');
+insert into speltillfälle values('2077-07-12 13:55:00',51,'Masters','730909-7777');
 
 # Frågeställningar
 SELECT namn 
@@ -167,15 +175,57 @@ SELECT domare.pnr
 SELECT caddy.favTips
 	FROM caddy, speltillfälle
     WHERE caddy.spelPnr='660808-5555' AND speltillfälle.pnr='660808-5555' AND speltillfälle.resultat='72' AND speltillfälle.namn='Ryder Cup';
+    
+SELECT spelare.*
+	FROM spelare, speltillfälle
+    WHERE spelare.pnr=speltillfälle.pnr;
 
 SELECT domare.*
 	FROM domare, ansvara
     WHERE domare.pnr=ansvara.pnr
     GROUP BY domare.pnr
-    HAVING count(*)=2;
+    HAVING COUNT(*)=2;
 
+SELECT *
+	FROM golfbag
+    ORDER BY golfbag.marke DESC;
 	
+SELECT AVG(resultat) AS Medelresultat
+	FROM speltillfälle;
     
-
-
+SELECT tavling.namn AS Tävling, AVG(speltillfälle.resultat) AS Medelresultat
+	FROM tavling, speltillfälle
+    WHERE tavling.namn=speltillfälle.namn
+    GROUP BY tavling.namn;
     
+SELECT *
+	FROM klubba
+    WHERE klubba.namn LIKE 'J%';
+
+SELECT spelare.namn
+	FROM spelare, speltillfälle
+    WHERE speltillfälle.namn='Masters' AND spelare.pnr=speltillfälle.pnr
+    ORDER BY speltillfälle.resultat ASC
+    LIMIT 1;
+    
+SELECT spelare.namn
+	FROM spelare, speltillfälle
+    WHERE speltillfälle.resultat=0 AND spelare.pnr=speltillfälle.pnr;
+
+SELECT *
+	FROM speltillfälle
+    WHERE speltillfälle.starttid BETWEEN '2077-07-10' AND '2077-07-17';
+
+SET SQL_SAFE_UP	DATES=0;
+
+UPDATE domare
+    SET lon=lon*1.03
+    WHERE lon BETWEEN 10000 AND 12000;
+
+DELETE FROM caddy
+    WHERE favTips='Sluta stirra';
+
+DELETE FROM golfbag
+	WHERE marke='Titleist' AND pnr='560123-6666';
+
+SET SQL_SAFE_UPDATES=1;
