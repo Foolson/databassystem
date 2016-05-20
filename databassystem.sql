@@ -88,13 +88,13 @@ create table caddy(
 )engine=innodb;
 
 # Transaktioner
-# Lägg in data i tabellen ävling
+# Lägg in data i tabellen tavling
 insert into tavling values
 	('Sigges sommargolf','2016-07-10'),
 	('Ryder Cup','2014-06-20'),
 	('Masters','2077-07-12');
 
-# Domare
+# Lägg in data i tabellen domare
 insert into domare values
 	('790129-4444',12000,'Simon'),
 	('810912-5555',12000,'Sven'),
@@ -104,7 +104,7 @@ insert into domare values
 	('780203-7785',55000,'Knugen'),
 	('910203-2185',4300,'Gullis');
 
-# Relation mellan Domare och Tävlingar
+# Lägg till data i tabellen ansvara för relationen mellan domare och tavling
 insert into ansvara values
 	('790129-4444','Sigges sommargolf'),
 	('810912-5555','Sigges sommargolf'),
@@ -112,7 +112,7 @@ insert into ansvara values
 	('850906-3597','Ryder Cup'),
 	('850906-3597','Sigges sommargolf');
 
-# Spelare
+# Lägg till data i tabellen spelare
 insert into spelare values
 	('940101-8651','Stina'),
 	('670808-2222','Sune'),
@@ -122,7 +122,7 @@ insert into spelare values
 	('730909-7777','Reidar'),
 	('660808-5555','Kurt-Evert');
 
-# Golfbag
+# Lägg till data i tabellen golfbag
 insert into golfbag values
 	('Super','Boom','940101-8651'),
 	('Gogo','SuperbrAND','670808-2222'),
@@ -130,28 +130,28 @@ insert into golfbag values
 	('Wooow','Titleist','560123-6666'),
 	('AndroidBag','Google','660808-5555');
 
-# Klubba
+# Lägg till data i tabellen klubba
 insert into klubba values
 	('Dudle','Säkra bettan','940101-8651','Boom'),
 	('Driver','Längst och snedast på touren','940101-8651','Boom'),
 	('Driver','Spikrak och kort','730909-1111','Nike'),
 	('Jensens','Google suger','730909-1111','Nike');
 
-# Caddy
+# Lägg till data i tabellen caddy
 insert into caddy values
 	('891010-5468','Knyt skorna hårdare','Anna','670808-2222','SuperbrAND'),
 	('461224-4385','Svinga lugnt','Petra','940101-8651','Boom'),
 	('551221-9988','Sluta stirra på brudarnas rövar','Jesus','660808-5555','Google'),
 	('991221-1235','Sluta stirra','Jeppe','560123-6666','Titleist');
 
-# Boll
+# Lägg till data i tabellen boll
 insert into boll values
 	('Hjärta',0,'Titleist','670808-2222'),
 	('Tre prickar',0,'Titleist','790101-4343'),
 	('Superball',0,'Nike','940101-8651'),
 	('RANDig',0,'Kina','560123-6666');
 
-# Speltillfalle
+# Lägg till data i tabellen speltillfalle
 insert into speltillfalle values
 	('2016-10-07 13:10:00',72,'Sigges sommargolf','670808-2222'),
 	('2016-10-07 10:25:00',0,'Sigges sommargolf','560123-6666'),
@@ -177,11 +177,14 @@ SELECT typ
 
 SELECT spelare.namn
 	FROM spelare, boll
-  WHERE boll.pnr=spelare.pnr AND boll.marke='Titleist';
+  WHERE boll.pnr=spelare.pnr AND
+	      boll.marke='Titleist';
 
 SELECT speltillfalle.resultat
 	FROM speltillfalle, spelare, boll
-  WHERE speltillfalle.pnr=spelare.pnr AND spelare.pnr=boll.pnr AND boll.marke='Nike';
+  WHERE speltillfalle.pnr=spelare.pnr AND
+	      spelare.pnr=boll.pnr AND
+				boll.marke='Nike';
 
 SELECT spelare.pnr
 	FROM spelare, spelare as bspelare
@@ -197,7 +200,10 @@ SELECT domare.pnr
 
 SELECT caddy.favTips
 	FROM caddy, speltillfalle
-  WHERE caddy.spelPnr='660808-5555' AND speltillfalle.pnr='660808-5555' AND speltillfalle.resultat='72' AND speltillfalle.namn='Ryder Cup';
+  WHERE caddy.spelPnr='660808-5555' AND
+	      speltillfalle.pnr='660808-5555' AND
+				speltillfalle.resultat='72' AND
+				speltillfalle.namn='Ryder Cup';
 
 SELECT spelare.*
 	FROM spelare, speltillfalle
