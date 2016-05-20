@@ -16,7 +16,7 @@ create table tavling(
 	namn varchar(20),
 	datum date,
 	primary key(namn)
-)engine=innodb;
+)engine=innodb; 
 
 # Skapa tabellen ansvara för relationen mellan tavling och domare
 create table ansvara(
