@@ -163,33 +163,42 @@ insert into speltillfalle values
 	('2077-07-12 13:55:00',51,'Masters','730909-7777');
 
 # Frågeställningar
+# Hämta namnet på domaren med personnummret 790129‐4444
 SELECT namn
 	FROM domare
 	WHERE pnr='790129-4444';
 
+# Hämta sugnaturen på bollen som spelades av spelaren med personnummret
+# 560123-6666
 SELECT signatur
 	FROM boll
 	WHERE pnr='560123-6666';
 
+# Hämta typen på golfbagen som ägs av spelaren med personnummret 560123-6666
 SELECT typ
 	FROM golfbag
   WHERE pnr='560123-6666';
 
+# Hämta namnet på spelarna som har bollar med märket 'Titleist'
 SELECT spelare.namn
 	FROM spelare, boll
   WHERE boll.pnr=spelare.pnr AND
 	      boll.marke='Titleist';
 
+# Hämta resultaten för speltillfällen som spelades med bollar av märket 'Nike'
 SELECT speltillfalle.resultat
 	FROM speltillfalle, spelare, boll
   WHERE speltillfalle.pnr=spelare.pnr AND
 	      spelare.pnr=boll.pnr AND
 				boll.marke='Nike';
 
+# Hämta personnummret till de spelare som har samma namn
 SELECT spelare.pnr
 	FROM spelare, spelare as bspelare
-  WHERE spelare.namn=bspelare.namn AND spelare.pnr!=bspelare.pnr;
+  WHERE spelare.namn=bspelare.namn AND
+	      spelare.pnr!=bspelare.pnr;
 
+# Hämta personnummret till de fomare som inte ansvarat för någon tävling
 SELECT domare.pnr
 	FROM domare
   WHERE NOT EXISTS(
@@ -198,6 +207,8 @@ SELECT domare.pnr
 								WHERE domare.pnr=ansvara.pnr
             );
 
+# Hämta tipset som gavs åt spelarem ned personnummret 660808-5555 som hade
+# resultat 72 slag i tävlingen "Ryder Cup"
 SELECT caddy.favTips
 	FROM caddy, speltillfalle
   WHERE caddy.spelPnr='660808-5555' AND
@@ -205,56 +216,74 @@ SELECT caddy.favTips
 				speltillfalle.resultat='72' AND
 				speltillfalle.namn='Ryder Cup';
 
+# Hämta spelarna som deltagit i ett speltillfälle
 SELECT spelare.*
 	FROM spelare, speltillfalle
   WHERE spelare.pnr=speltillfalle.pnr;
 
+# Hämta de domare som ansvarat för exakt två tävlingar
 SELECT domare.*
 	FROM domare, ansvara
   WHERE domare.pnr=ansvara.pnr
   GROUP BY domare.pnr
   HAVING COUNT(*)=2;
 
+# Hämta alla golfbagar sorterat omvänt efter märke
 SELECT *
 	FROM golfbag
   ORDER BY golfbag.marke DESC;
 
+# Hämta medelresultat för alla speltillfällen
 SELECT AVG(resultat) AS Medelresultat
 	FROM speltillfalle;
 
+# Hämta medelresultat för alla speltillällen på respektive tävling
 SELECT tavling.namn AS Tävling, AVG(speltillfalle.resultat) AS Medelresultat
 	FROM tavling, speltillfalle
   WHERE tavling.namn=speltillfalle.namn
   GROUP BY tavling.namn;
 
+# Hämta all data om klubborna som har ett namn som börjar på bokstaven 'j'
 SELECT *
 	FROM klubba
   WHERE klubba.namn LIKE 'J%';
 
+# Hämta namnet på den spelare som hade bäst resultat i tävlingen 'Masters'
 SELECT spelare.namn
 	FROM spelare, speltillfalle
-  WHERE speltillfalle.namn='Masters' AND spelare.pnr=speltillfalle.pnr
+  WHERE speltillfalle.namn='Masters' AND
+	      spelare.pnr=speltillfalle.pnr
   ORDER BY speltillfalle.resultat ASC
   LIMIT 1;
 
+# Hämta namnet på de spelare som inte slutförde sitt speltillfälle
 SELECT spelare.namn
 	FROM spelare, speltillfalle
   WHERE speltillfalle.resultat=0 AND spelare.pnr=speltillfalle.pnr;
 
+# Lista de spelillfällen som pågick under golfveckan 10/7 - 17/7
 SELECT *
 	FROM speltillfalle
-  WHERE speltillfalle.starttid BETWEEN '2077-07-10' AND '2077-07-17';
+  WHERE speltillfalle.starttid BETWEEN '2077-07-10' AND
+	                                     '2077-07-17';
 
+# Gör det möjligt att uppdatera tabeller
 SET SQL_SAFE_UPDATES=0;
 
+# Öka lönen på alla domare som tjänar 10000-12000 med tre procent
 UPDATE domare
   SET lon=lon*1.03
   WHERE lon BETWEEN 10000 AND 12000;
 
+# Ta bort caddyn som heter jeppe och som alltid ger tipset 'Sluta stirra'
 DELETE FROM caddy
-  WHERE favTips='Sluta stirra';
+  WHERE namn='Jeppe' AND favTips='Sluta stirra';
 
+# Ta bort golfbagen av märket 'Titleist' som tillhör spelaren med personnummret
+# 560123-6666
 DELETE FROM golfbag
-	WHERE marke='Titleist' AND pnr='560123-6666';
+	WHERE marke='Titleist' AND
+	      pnr='560123-6666';
 
+# Ta bort möjligheten att uppdatera tabeller
 SET SQL_SAFE_UPDATES=1;
